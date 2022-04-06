@@ -1,4 +1,5 @@
 import ModeSwitcher from './components/ModeSwitcher';
+import './App.css';
 
 const App = () => {
   return (
