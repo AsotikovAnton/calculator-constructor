@@ -1,9 +1,9 @@
-import React from 'react';
+import ModeSwitcher from './components/ModeSwitcher';
 
 const App = () => {
   return (
     <div>
-      Hello world
+      <ModeSwitcher />
     </div>
   );
 }
