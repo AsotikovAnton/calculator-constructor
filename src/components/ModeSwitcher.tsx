@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
-import { Radio } from 'antd';
+import { Radio, RadioChangeEvent } from 'antd';
 
 const ModeSwitcher: React.FC = () => {
   const { isContructorMode } = useTypedSelector(state => state.mode);
@@ -14,7 +14,7 @@ const ModeSwitcher: React.FC = () => {
     { label: 'Constructor', value: true },
   ];
   
-  const handleChange = (e: any) => {
+  const handleChange = (e: RadioChangeEvent) => {
     changeMode(e.target.value);
   }
 
