@@ -89,6 +89,11 @@ body {
   border-radius: 4px;
 }
 
+.calculator-item.shadow {
+  box-shadow: 0 4px 3px #5D5FEF;
+}
+
+
 .calculator-result-field {
   padding: 4px 8px;
   background: #F3F4F6;

@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+import React, { ReactEventHandler, ReactNode, useState } from 'react';
 import { Button } from 'antd';
+
+interface IItem {
+  id: number,
+  className: string,
+  children: ReactNode,
+}
 
 const Calculator: React.FC = () => {
   const [tempResult, setTempResult] = useState<string>('0');
@@ -26,6 +32,77 @@ const Calculator: React.FC = () => {
     { id: ',', label: ',', value: '.' },
   ];
 
+  const items = [
+    { 
+      id: 1, 
+      className: 'calculator-item', 
+      children: <div className="calculator-result-field">{tempResult}</div> 
+    },
+    { 
+      id: 2, 
+      className: 'calculator-item i-4', 
+      children: operators.map(o => <Button key={o.id} onClick={() => handleOperator(o.value)}>{o.label}</Button>)
+    },
+    { 
+      id: 3, 
+      className: 'calculator-item i-3', 
+      children: digits.map(o => {
+        interface IProp {
+          key: string | number,
+          onClick: () => void,
+          className?: string
+        }
+        const prop: IProp = {
+          key: o.id,
+          onClick: () => handleDigit(o.value),
+        }
+        if (o.className) {
+          prop.className = o.className
+        }
+        return <Button {...prop}>{o.label}</Button>
+      })
+    },
+    { 
+      id: 4, 
+      className: 'calculator-item i-1', 
+      children: <Button type="primary" onClick={() => calculate()}>=</Button>
+    },
+  ];
+
+  const dragOverHandler = (e: React.DragEvent) => {
+    e.preventDefault();
+    const target = e.target as Element;
+    if (target.className === 'calculator-item') {
+      target.classList.add('shadow');
+      // target.className = 'calculator-item shadow';
+    }
+  }
+
+  const dragLeaveHandler = (e: React.DragEvent) => {
+    // const target = e.target as Element;
+    // target.classList.remove('shadow');
+    // target.className = 'calculator-item';
+  }
+
+  const dragStartHandler = (e: React.DragEvent, items: IItem[], item: IItem) => {
+    // console.log(e);
+    // console.log(items);
+    // console.log(item);
+  }
+
+  const dragEndHandler = (e: React.DragEvent) => {
+    // const target = e.target as Element;
+    // target.classList.remove('shadow');
+  }
+
+  const dropHandler = (e: React.DragEvent, items: IItem[], item: IItem) => {
+    e.preventDefault();
+    // console.log(e);
+    // console.log(items);
+    // console.log(item);
+  }
+
+
   const handleOperator = (operator: string) => {
     console.log(operator);
   }
@@ -35,39 +112,27 @@ const Calculator: React.FC = () => {
   }
 
   const calculate = () => {
-    
+    console.log('calculate');
   }
+
+
 
   return (
     <section className="calculator">
-      <div className="calculator-item" draggable={true}>
-        <div className="calculator-result-field">{tempResult}</div>
-      </div>
-      <div className="calculator-item i-4">
-        {operators.map(o => 
-          <Button key={o.id} onClick={() => handleOperator(o.value)}>{o.label}</Button>
-        )}
-      </div>
-      <div className="calculator-item i-3">
-        {digits.map(o => {
-          interface IProp {
-            key: string | number,
-            onClick: () => void,
-            className?: string
-          }
-          const prop: IProp = {
-            key: o.id,
-            onClick: () => handleDigit(o.value),
-          }
-          if (o.className) {
-            prop.className = o.className
-          }
-          return <Button {...prop}>{o.label}</Button>
-        })}
-      </div>
-      <div className="calculator-item i-1">
-        <Button type="primary" onClick={calculate}>=</Button>
-      </div>
+      {items.map(item => 
+        <div 
+          key={item.id}
+          className={item.className} 
+          draggable={true}
+          onDragOver={(e) => dragOverHandler(e)}
+          onDragLeave={(e) => dragLeaveHandler(e)}
+          onDragStart={(e) => dragStartHandler(e, items, item)}
+          onDragEnd={(e) => dragEndHandler(e)}
+          onDrop={(e) => dropHandler(e, items, item)}
+        >
+          {item.children}
+        </div>
+      )}
     </section>
   )
 }
