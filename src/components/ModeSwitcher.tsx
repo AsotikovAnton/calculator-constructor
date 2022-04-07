@@ -1,31 +1,42 @@
 import React from 'react';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
-import { Radio, RadioChangeEvent } from 'antd';
+import { Col, Radio, RadioChangeEvent, Row } from 'antd';
+import { ReactComponent as Eye } from '../images/icons/eye.svg';
+import { ReactComponent as Selector } from '../images/icons/selector.svg';
 
 const ModeSwitcher: React.FC = () => {
   const { isContructorMode } = useTypedSelector(state => state.mode);
   const { changeMode } = useActions();
 
   console.log(isContructorMode);
-
-  const options = [
-    { label: 'Runtime', value: false },
-    { label: 'Constructor', value: true },
-  ];
   
   const handleChange = (e: RadioChangeEvent) => {
     changeMode(e.target.value);
   }
 
   return (
-    <div>
+    <div className="mode-switcher-wrapper">
       <Radio.Group
-        options={options}
+        className="mode-switcher"
         onChange={handleChange}
         value={isContructorMode}
-        optionType="button"
-      />
+        // options={options}
+        // optionType="button"
+      >
+        <Radio.Button value={false}>
+          <div className="button-container">
+            <Eye />
+            Runtime
+          </div>
+        </Radio.Button>
+        <Radio.Button value={true}>
+          <div className="button-container">
+            <Selector />
+            Constructor
+          </div>
+        </Radio.Button>
+      </Radio.Group>
     </div>
   )
 }
