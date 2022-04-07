@@ -40,7 +40,7 @@ const Calculator: React.FC = () => {
 
   return (
     <section className="calculator">
-      <div className="calculator-item">
+      <div className="calculator-item" draggable={true}>
         <div className="calculator-result-field">{tempResult}</div>
       </div>
       <div className="calculator-item i-4">

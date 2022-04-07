@@ -1,7 +1,7 @@
 import React from 'react';
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
-import { Col, Radio, RadioChangeEvent, Row } from 'antd';
+import { Radio, RadioChangeEvent } from 'antd';
 import { ReactComponent as Eye } from '../images/icons/eye.svg';
 import { ReactComponent as Selector } from '../images/icons/selector.svg';
 
