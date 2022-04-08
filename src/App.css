@@ -93,7 +93,6 @@ body {
   box-shadow: 0 4px 3px #5D5FEF;
 }
 
-
 .calculator-result-field {
   padding: 4px 8px;
   background: #F3F4F6;
@@ -120,6 +119,27 @@ body {
   font-weight: 500;
 }
 
+.calculator-item.constructor-item button {
+  cursor: grab;
+}
+
+.calculator-item.constructor-item button:active {
+  box-shadow: 0 0 0 1px #E2E3E5;
+}
+
+.calculator-item.constructor-item button::after {
+  display: none;
+}
+
+.calculator-item.constructor-item button[disabled] {
+  color: inherit;
+  border-color: inherit;
+  background: inherit;
+  text-shadow: inherit;
+  box-shadow: 0 0 0 1px #E2E3E5;
+  cursor: inherit;
+}
+
 .calculator-item.i-4 button,
 .calculator-item.i-1 button {
   height: 100%;
@@ -129,14 +149,14 @@ body {
   height: 50px;
 }
 
-.calculator-item button:hover {
+.calculator-item:not(.constructor-item) button:hover {
   box-shadow: 0 0 0 2px #5D5FEF;
-  color: inherit;
 }
 
-.calculator-item button:focus {
+.calculator-item button:hover,
+.calculator-item button:focus { 
   color: inherit;
-}
+} 
 
 .calculator-item button.large {
   grid-column: span 2;
@@ -155,8 +175,10 @@ body {
 .construstor {
   width: 245px;
   height: 480px;
-  border: 2px dashed #C4C4C4;
-  border-radius: 6px;
+}
+
+.construstor.line {
+  background-color: #5D5FEF;
 }
 
 .empty-block {
@@ -167,9 +189,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 2px dashed #C4C4C4;
+  border-radius: 6px;
 }
 
-.empty-block svg {
+.empty-block.shadow {
+  background: #F0F9FF;
+}
+
+.empty-block img {
   margin-bottom: 12px;
 }
 
@@ -177,12 +205,12 @@ body {
   text-align: center;
 }
 
-.empty-block .title {
+.empty-block-title {
   margin-bottom: 4px;
   color: #5D5FEF;
 }
 
-.empty-block .description {
+.empty-block-.description {
   font-weight: 400;
   font-size: 12px;
   color: #6B7280;
