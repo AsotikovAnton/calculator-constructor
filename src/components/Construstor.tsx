@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import { useActions } from '../hooks/useActions';
 import { useCalcItems } from '../hooks/useCalcItems';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import empty from '../images/icons/empty.png';
@@ -14,7 +15,9 @@ import CalculatorItem from './CalculatorItem';
 const Construstor: React.FC = () => {
   const { items } = useCalcItems();
   const { currentCalculatorItem } = useTypedSelector(state => state.currentCalculatorItem);
-  const [currentItems, setCurrentItems] = useState<IItem[]>([]); // вынести в глобальный
+  const { constructorItems } = useTypedSelector(state => state.constructorItems);
+  const { setConstructorItems } = useActions();
+  // const [currentItems, setCurrentItems] = useState<IItem[]>([]); // вынести в глобальный
 
   const dragOverHandler = (e: React.DragEvent) => {    
     e.preventDefault();
@@ -55,15 +58,26 @@ const Construstor: React.FC = () => {
     target.classList.remove('shadow');
     
     if (currentCalculatorItem) {
-      // сделать проверку на дубли
-      setCurrentItems([
-        ...currentItems,
-        currentCalculatorItem
-      ]);
+      if (constructorItems.some(p => p.id === currentCalculatorItem.id)) {
+        setConstructorItems(constructorItems);
+      } else {
+        setConstructorItems([ ...constructorItems, currentCalculatorItem ]);
+      }
+
+      // setCurrentItems(prev => {
+      //   if (prev.some(p => p.id === currentCalculatorItem.id)) {
+      //     return prev;
+      //   } else {
+      //     return [
+      //       ...prev,
+      //       currentCalculatorItem
+      //     ]
+      //   }
+      // });
     }
   }
 
-  console.log(currentItems);
+  console.log(constructorItems);
   
 
   return (
@@ -72,9 +86,9 @@ const Construstor: React.FC = () => {
       onDragOver={(e) => dragOverHandler(e)}
       onDrop={(e) => dropHandler(e, items)}
     >
-      {currentItems.length > 0 
+      {constructorItems.length > 0 
         ? 
-        currentItems.map((item) => {
+        constructorItems.map((item) => {
           return (
             <CalculatorItem 
               key={item.id}

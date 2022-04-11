@@ -11,12 +11,14 @@ import { IItem } from '../types/calculatorItem';
 // }
 
 interface Props {
-  item: IItem
+  item: IItem,
 }
 
 const CalculatorItem: React.FC<Props> = ({ item }) => {
-  const { isContructorMode } = useTypedSelector(state => state.mode);  
+  const { isContructorMode } = useTypedSelector(state => state.mode);
   const { items } = useCalcItems();
+  const { constructorItems } = useTypedSelector(state => state.constructorItems);
+  const { currentCalculatorItem } = useTypedSelector(state => state.currentCalculatorItem);
   const { setCurrentCalculatorItem } = useActions();
   
   const dragOverHandler = (e: React.DragEvent) => {
@@ -57,6 +59,14 @@ const CalculatorItem: React.FC<Props> = ({ item }) => {
 
   const dropHandler = (e: React.DragEvent, items: IItem[], item: IItem) => {
     e.preventDefault();
+    const target = e.target as Element;
+    console.log('drop');
+    
+    if (target.className.includes('calculator-item')) {
+      console.log(target);
+      
+      target.classList.add('shadow');
+    }
     // console.log(e);
     // console.log(items);
     // console.log(item);
