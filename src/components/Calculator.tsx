@@ -11,6 +11,7 @@ const Calculator: React.FC = () => {
         <CalculatorItem 
           key={item.id}
           item={item} 
+          isConstructorItem={false}
         />
       )}
     </section>

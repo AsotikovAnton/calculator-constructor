@@ -12,14 +12,15 @@ import { IItem } from '../types/calculatorItem';
 
 interface Props {
   item: IItem,
+  isConstructorItem: boolean
 }
 
-const CalculatorItem: React.FC<Props> = ({ item }) => {
+const CalculatorItem: React.FC<Props> = ({ item, isConstructorItem }) => {
   const { isContructorMode } = useTypedSelector(state => state.mode);
   const { items } = useCalcItems();
   const { constructorItems } = useTypedSelector(state => state.constructorItems);
   const { currentCalculatorItem } = useTypedSelector(state => state.currentCalculatorItem);
-  const { setCurrentCalculatorItem } = useActions();
+  const { setCurrentCalculatorItem, setConstructorItems } = useActions();
   
   const dragOverHandler = (e: React.DragEvent) => {
     e.preventDefault();
@@ -52,37 +53,37 @@ const CalculatorItem: React.FC<Props> = ({ item }) => {
     setCurrentCalculatorItem(item);
   }
 
-  const dragEndHandler = (e: React.DragEvent) => {
-    const target = e.target as Element;
-    // target.classList.remove('shadow');
+  const dragEndHandler = (e: React.DragEvent, item: IItem) => {
+    // const target = e.target as Element;
+    // if (constructorItems.some(c => c.id === item.id)) {
+    //   target.classList.add('opacity-50');
+    // }
   }
 
   const dropHandler = (e: React.DragEvent, items: IItem[], item: IItem) => {
     e.preventDefault();
-    const target = e.target as Element;
-    console.log('drop');
-    
-    if (target.className.includes('calculator-item')) {
-      console.log(target);
-      
-      target.classList.add('shadow');
-    }
     // console.log(e);
     // console.log(items);
     // console.log(item);
+  }
 
+  const removeHandler = (id: number) => {
+    if (isConstructorItem) {
+      setConstructorItems(constructorItems.filter(p => p.id !== id));
+    }
   }
 
   return (
     <div 
       key={item.id}
-      className={item.className} 
-      draggable={isContructorMode}
+      className={`${item.className} ${constructorItems.some(c => c.id === item.id) && !isConstructorItem ? 'opacity-50' : ''}`} 
+      draggable={!isConstructorItem && !constructorItems.some(c => c.id === item.id)}
       onDragOver={(e) => dragOverHandler(e)}
       onDragLeave={(e) => dragLeaveHandler(e)}
       onDragStart={(e) => dragStartHandler(e, items, item)}
-      onDragEnd={(e) => dragEndHandler(e)}
+      onDragEnd={(e) => dragEndHandler(e, item)}
       onDrop={(e) => dropHandler(e, items, item)}
+      onDoubleClick={() => removeHandler(item.id)}
     >
       {item.children}
     </div>

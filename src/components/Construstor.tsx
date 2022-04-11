@@ -52,7 +52,7 @@ const Construstor: React.FC = () => {
     target.classList.remove('shadow');
   }
 
-  const dropHandler = (e: React.DragEvent, items: IItem[]) => {
+  const dropHandler = (e: React.DragEvent) => {
     e.preventDefault();
     const target = e.target as Element;
     target.classList.remove('shadow');
@@ -61,19 +61,12 @@ const Construstor: React.FC = () => {
       if (constructorItems.some(p => p.id === currentCalculatorItem.id)) {
         setConstructorItems(constructorItems);
       } else {
-        setConstructorItems([ ...constructorItems, currentCalculatorItem ]);
+        if (currentCalculatorItem.id === 1) {
+          setConstructorItems([ currentCalculatorItem, ...constructorItems ]);
+        } else {
+          setConstructorItems([ ...constructorItems, currentCalculatorItem ]);
+        }
       }
-
-      // setCurrentItems(prev => {
-      //   if (prev.some(p => p.id === currentCalculatorItem.id)) {
-      //     return prev;
-      //   } else {
-      //     return [
-      //       ...prev,
-      //       currentCalculatorItem
-      //     ]
-      //   }
-      // });
     }
   }
 
@@ -84,7 +77,7 @@ const Construstor: React.FC = () => {
     <section 
       className="construstor"
       onDragOver={(e) => dragOverHandler(e)}
-      onDrop={(e) => dropHandler(e, items)}
+      onDrop={(e) => dropHandler(e)}
     >
       {constructorItems.length > 0 
         ? 
@@ -93,6 +86,7 @@ const Construstor: React.FC = () => {
             <CalculatorItem 
               key={item.id}
               item={item} 
+              isConstructorItem={true}
             />
           )
         })
@@ -103,7 +97,7 @@ const Construstor: React.FC = () => {
           onDragLeave={(e) => dragLeaveHandler(e)}
           // onDragStart={(e) => dragStartHandler(e)}
           onDragEnd={(e) => dragEndHandler(e)}
-          onDrop={(e) => dropHandler(e, items)}
+          onDrop={(e) => dropHandler(e)}
         >
           <img src={empty} alt="empty" />
           <span className="empty-block-title">Перетащите сюда</span>
