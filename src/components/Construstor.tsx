@@ -33,14 +33,37 @@ const Construstor: React.FC = () => {
       target.parentElement.classList.add('shadow');
     }
 
-    // if (target.className === 'constructor') {
-    //   target.classList.add('line');
+    // console.log(target);
+    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
+      target.children[target.children.length - 1].classList.add('highlight');
+    }
+    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
+      target.children[0].classList.add('highlight-top');
+    }
+
+    // if (target.className.includes('constructor-item')) {
+    //   target.classList.add('highlight');
+    // }
+
+    // if (target.parentElement?.className.includes('constructor-item')) {
+    //   target.parentElement.classList.add('highlight');
     // }
   }
 
   const dragLeaveHandler = (e: React.DragEvent) => {
     const target = e.target as Element;
     target.classList.remove('shadow');
+    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
+      target.children[target.children.length - 1].classList.remove('highlight');
+    }
+    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
+      target.children[0].classList.remove('highlight-top');
+    }
+
+
+    // if (target.className.includes('constructor-item')) {
+    //   target.classList.remove('highlight');
+    // }
   }
 
   // const dragStartHandler = (e: React.DragEvent) => {
@@ -50,12 +73,33 @@ const Construstor: React.FC = () => {
   const dragEndHandler = (e: React.DragEvent) => {
     const target = e.target as Element;
     target.classList.remove('shadow');
+    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
+      target.children[target.children.length - 1].classList.remove('highlight');
+    }
+    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
+      target.children[0].classList.remove('highlight-top');
+    }
+
+    // if (target.className.includes('constructor-item')) {
+    //   target.classList.remove('highlight');
+    // }
   }
 
   const dropHandler = (e: React.DragEvent) => {
     e.preventDefault();
     const target = e.target as Element;
+    console.log(target);
+    
     target.classList.remove('shadow');
+    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
+      target.children[target.children.length - 1].classList.remove('highlight');
+    }
+    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
+      target.children[0].classList.remove('highlight-top');
+    }
+    if (target.className.includes('constructor-item')) {
+      target.classList.remove('highlight');
+    }
     
     if (currentCalculatorItem) {
       if (constructorItems.some(p => p.id === currentCalculatorItem.id)) {
@@ -75,8 +119,10 @@ const Construstor: React.FC = () => {
 
   return (
     <section 
-      className="construstor"
+      className="constructor"
       onDragOver={(e) => dragOverHandler(e)}
+      onDragLeave={(e) => dragLeaveHandler(e)}
+      onDragEnd={(e) => dragEndHandler(e)}
       onDrop={(e) => dropHandler(e)}
     >
       {constructorItems.length > 0 

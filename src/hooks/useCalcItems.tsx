@@ -66,15 +66,15 @@ export const useCalcItems = () => {
   ];
 
   const handleOperator = (operator: string) => {
-    console.log(operator);
+    // console.log(operator);
   }
 
   const handleDigit = (digit: string) => {
-    console.log(digit);
+    // console.log(digit);
   }
 
   const calculate = () => {
-    console.log('calculate');
+    // console.log('calculate');
   }
 
   return { items, handleOperator, handleDigit, calculate }

@@ -51,6 +51,19 @@ const CalculatorItem: React.FC<Props> = ({ item, isConstructorItem }) => {
     console.log(item);
 
     setCurrentCalculatorItem(item);
+
+    // const idx = constructorItems.findIndex(p => p.id !== item.id);
+    // if (idx !== -1) {
+    //   const updEl = {
+    //     ...item,
+    //     className: `${item.className} 'shadow'}`, 
+    //   }
+    //   setConstructorItems([
+    //     ...constructorItems.slice(0, idx),
+    //     updEl,
+    //     ...constructorItems.slice(idx + 1),
+    //   ]);
+    // }
   }
 
   const dragEndHandler = (e: React.DragEvent, item: IItem) => {
