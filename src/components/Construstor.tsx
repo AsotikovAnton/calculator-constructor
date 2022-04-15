@@ -6,25 +6,35 @@ import empty from '../images/icons/empty.png';
 import { ICurrentItem, IItem } from '../types/calculatorItem';
 import CalculatorItem from './CalculatorItem';
 
-// interface IItem {
-//   id: number,
-//   className: string,
-//   children: ReactNode,
-// }
-
 const Construstor: React.FC = () => {
   const { items } = useCalcItems();
   const { currentCalculatorItem } = useTypedSelector(state => state.currentCalculatorItem);
   const { constructorItems } = useTypedSelector(state => state.constructorItems);
   const { setConstructorItems } = useActions();
-  // const [currentItems, setCurrentItems] = useState<IItem[]>([]); // вынести в глобальный
+
+  const addHighlight = (currentTarget: Element) => {
+    if (currentCalculatorItem?.id !== 1) {
+      currentTarget.children[currentTarget.children.length - 1].classList.add('highlight');
+    } else {
+      currentTarget.children[0].classList.add('highlight-top');
+    }
+  }
+
+  const removeHighlight = (currentTarget: Element) => {
+    if (currentCalculatorItem?.id !== 1) {
+      currentTarget.children[currentTarget.children.length - 1].classList.remove('highlight');
+    } else {
+      currentTarget.children[0].classList.remove('highlight-top');
+    }
+  }
 
   const dragOverHandler = (e: React.DragEvent) => {    
     e.preventDefault();
     // console.log(e);    
     const target = e.target as Element;
+    const currentTarget = e.currentTarget as Element;
     // console.log(target);
-    
+    // console.log(currentTarget);
     
     if (target.className === 'empty-block') {
       target.classList.add('shadow');
@@ -33,37 +43,20 @@ const Construstor: React.FC = () => {
       target.parentElement.classList.add('shadow');
     }
 
-    // console.log(target);
-    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
-      target.children[target.children.length - 1].classList.add('highlight');
+    if (currentTarget.className === 'constructor') {
+      addHighlight(currentTarget);
     }
-    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
-      target.children[0].classList.add('highlight-top');
-    }
-
-    // if (target.className.includes('constructor-item')) {
-    //   target.classList.add('highlight');
-    // }
-
-    // if (target.parentElement?.className.includes('constructor-item')) {
-    //   target.parentElement.classList.add('highlight');
-    // }
   }
 
   const dragLeaveHandler = (e: React.DragEvent) => {
     const target = e.target as Element;
+    const currentTarget = e.currentTarget as Element;
+
     target.classList.remove('shadow');
-    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
-      target.children[target.children.length - 1].classList.remove('highlight');
-    }
-    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
-      target.children[0].classList.remove('highlight-top');
-    }
 
-
-    // if (target.className.includes('constructor-item')) {
-    //   target.classList.remove('highlight');
-    // }
+    if (currentTarget.className === 'constructor') {
+      removeHighlight(currentTarget);
+    }
   }
 
   // const dragStartHandler = (e: React.DragEvent) => {
@@ -72,33 +65,24 @@ const Construstor: React.FC = () => {
 
   const dragEndHandler = (e: React.DragEvent) => {
     const target = e.target as Element;
-    target.classList.remove('shadow');
-    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
-      target.children[target.children.length - 1].classList.remove('highlight');
-    }
-    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
-      target.children[0].classList.remove('highlight-top');
-    }
+    const currentTarget = e.currentTarget as Element;
 
-    // if (target.className.includes('constructor-item')) {
-    //   target.classList.remove('highlight');
-    // }
+    target.classList.remove('shadow');
+
+    if (currentTarget.className === 'constructor') {
+      removeHighlight(currentTarget);
+    }
   }
 
   const dropHandler = (e: React.DragEvent) => {
     e.preventDefault();
     const target = e.target as Element;
-    console.log(target);
+    const currentTarget = e.currentTarget as Element;
     
     target.classList.remove('shadow');
-    if (target.className === 'constructor' && currentCalculatorItem?.id !== 1) {
-      target.children[target.children.length - 1].classList.remove('highlight');
-    }
-    if (target.className === 'constructor' && currentCalculatorItem?.id === 1) {
-      target.children[0].classList.remove('highlight-top');
-    }
-    if (target.className.includes('constructor-item')) {
-      target.classList.remove('highlight');
+
+    if (currentTarget.className === 'constructor') {
+      removeHighlight(currentTarget);
     }
     
     if (currentCalculatorItem) {
@@ -114,7 +98,7 @@ const Construstor: React.FC = () => {
     }
   }
 
-  console.log(constructorItems);
+  // console.log(constructorItems);
   
 
   return (

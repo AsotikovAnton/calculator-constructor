@@ -24,60 +24,25 @@ const CalculatorItem: React.FC<Props> = ({ item, isConstructorItem }) => {
   
   const dragOverHandler = (e: React.DragEvent) => {
     e.preventDefault();
-    const target = e.target as Element;
-    // console.log(target);
-    
-    // if (target.className === 'constructor') {
-    //   console.log(target);
-      
-    //   target.classList.add('shadow');
-    // }
-
-    // if (target.parentElement?.className === 'constructor-item') {
-    //   console.log(target.parentElement);
-      
-    //   target.parentElement?.classList.add('shadow');
-    // }
   }
 
-  const dragLeaveHandler = (e: React.DragEvent) => {
-    const target = e.target as Element;
-    // target.classList.remove('shadow');
-  }
+  // const dragLeaveHandler = (e: React.DragEvent) => {
+  //   const target = e.target as Element;
+  // }
 
-  const dragStartHandler = (e: React.DragEvent, items: IItem[], item: IItem) => {
-    // console.log(e);
-    // console.log(items);
-    console.log(item);
-
+  const dragStartHandler = (e: React.DragEvent, item: IItem) => {
     setCurrentCalculatorItem(item);
-
-    // const idx = constructorItems.findIndex(p => p.id !== item.id);
-    // if (idx !== -1) {
-    //   const updEl = {
-    //     ...item,
-    //     className: `${item.className} 'shadow'}`, 
-    //   }
-    //   setConstructorItems([
-    //     ...constructorItems.slice(0, idx),
-    //     updEl,
-    //     ...constructorItems.slice(idx + 1),
-    //   ]);
+    // if (isContructorMode) {
+      
     // }
   }
 
-  const dragEndHandler = (e: React.DragEvent, item: IItem) => {
-    // const target = e.target as Element;
-    // if (constructorItems.some(c => c.id === item.id)) {
-    //   target.classList.add('opacity-50');
-    // }
-  }
+  // const dragEndHandler = (e: React.DragEvent) => {
 
-  const dropHandler = (e: React.DragEvent, items: IItem[], item: IItem) => {
+  // }
+
+  const dropHandler = (e: React.DragEvent) => {
     e.preventDefault();
-    // console.log(e);
-    // console.log(items);
-    // console.log(item);
   }
 
   const removeHandler = (id: number) => {
@@ -90,12 +55,13 @@ const CalculatorItem: React.FC<Props> = ({ item, isConstructorItem }) => {
     <div 
       key={item.id}
       className={`${item.className} ${constructorItems.some(c => c.id === item.id) && !isConstructorItem ? 'opacity-50' : ''}`} 
-      draggable={!isConstructorItem && !constructorItems.some(c => c.id === item.id)}
+      // draggable={!isConstructorItem && !constructorItems.some(c => c.id === item.id)}
+      draggable={!constructorItems.some(c => c.id === item.id) || isConstructorItem && item.id !== 1}
       onDragOver={(e) => dragOverHandler(e)}
-      onDragLeave={(e) => dragLeaveHandler(e)}
-      onDragStart={(e) => dragStartHandler(e, items, item)}
-      onDragEnd={(e) => dragEndHandler(e, item)}
-      onDrop={(e) => dropHandler(e, items, item)}
+      // onDragLeave={(e) => dragLeaveHandler(e)}
+      onDragStart={(e) => dragStartHandler(e, item)}
+      // onDragEnd={(e) => dragEndHandler(e, item)}
+      onDrop={(e) => dropHandler(e)}
       onDoubleClick={() => removeHandler(item.id)}
     >
       {item.children}
